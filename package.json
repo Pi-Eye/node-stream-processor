@@ -1,0 +1,25 @@
+{
+  "name": "node-stream-processor",
+  "version": "1.0.0",
+  "description": "Node interface for stream processor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pi-Eye/node-stream-processor.git"
+  },
+  "author": "Bwu1324",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Pi-Eye/node-stream-processor/issues"
+  },
+  "homepage": "https://github.com/Pi-Eye/node-stream-processor#readme",
+  "dependencies": {
+    "node-addon-api": "^5.0.0"
+  },
+  "devDependencies": {
+    "cmake-js": "^7.0.0"
+  }
+}
