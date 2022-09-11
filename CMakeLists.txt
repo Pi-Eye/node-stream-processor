@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION "3.24")
 
 # Name Project
-project("node-streamprocessor")
+project("node-stream-processor")
 
 # Set output directory to bin
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
@@ -61,13 +61,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${JPEG_INCLUDE_DIR})
 find_package(freetype CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE freetype)
 
-# Copy .cl Kernel Files To Output Directory
-FILE(GLOB KERNEL_CL_FILES "stream-processor/mjpeg-motion-detector/kernels/*")
-foreach(CL_FILE ${KERNEL_CL_FILES})
-  get_filename_component(FILE_NAME ${CL_FILE} NAME)
-  configure_file(${CL_FILE} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${CMAKE_BUILD_TYPE}/${FILE_NAME})
-endforeach()
-
 # Essential library files to link to a node addon,
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_JS_LIB})
 
@@ -81,3 +74,11 @@ string(REPLACE "\"" "" NODE_ADDON_API_DIR ${NODE_ADDON_API_DIR})
 target_include_directories(${PROJECT_NAME} PRIVATE ${NODE_ADDON_API_DIR})
 
 add_definitions(-DNAPI_VERSION=6)
+
+# Create OpenCL opencl_devices executable
+set(EXEC_NAME "opencl_devices")
+add_executable(${EXEC_NAME} "src/opencl_devices.cc" "stream-processor/mjpeg-motion-detector/src/open_cl_interface.cc")
+target_include_directories(${EXEC_NAME} PRIVATE "stream-processor/mjpeg-motion-detector/include")
+# Find OpenCL and add it
+find_package(OpenCL REQUIRED)
+target_link_libraries(${EXEC_NAME} PRIVATE OpenCL::OpenCL)

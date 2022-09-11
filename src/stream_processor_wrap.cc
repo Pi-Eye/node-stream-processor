@@ -34,7 +34,11 @@ StreamProcessorWrap::StreamProcessorWrap(const Napi::CallbackInfo& info) : Napi:
   // Throw error if there are no or too many arguments
   size_t length = info.Length();
   if (length <= 0) Napi::TypeError::New(env, "Requires At Least 1 Argument").ThrowAsJavaScriptException();
-  if (length > 4) Napi::TypeError::New(env, "More Than Maximum Of 4 Arguments Supplied").ThrowAsJavaScriptException();
+  if (length > 5) Napi::TypeError::New(env, "More Than Maximum Of 5 Arguments Supplied").ThrowAsJavaScriptException();
+
+  if (info[0].IsBoolean() && !info[0].ToBoolean()) {
+    SetOutput(&std::cout);
+  }
 
   // Parse arguments
   bool found_required = false;
@@ -43,7 +47,7 @@ StreamProcessorWrap::StreamProcessorWrap(const Napi::CallbackInfo& info) : Napi:
   bool found_device = false;
   MotionConfig motion_config;
   DeviceConfig device_config;
-  for (int i = 0; i < length; i++) {
+  for (int i = 1; i < length; i++) {
     // Throw error if arguments are not objects
     if (!info[i].IsObject()) Napi::TypeError::New(env, "Expected Only Object Arguments").ThrowAsJavaScriptException();
 
@@ -151,6 +155,15 @@ StreamProcessorWrap::StreamProcessorWrap(const Napi::CallbackInfo& info) : Napi:
       // motion_fps_scale
       if (!processor_args.Has("motion_fps_scale")) Napi::TypeError::New(env, "Expected Motion Object Arguments To Have Property: 'motion_fps_scale'").ThrowAsJavaScriptException();
       if (!processor_args.Get("motion_fps_scale").IsNumber()) Napi::TypeError::New(env, "Expected Property: 'motion_fps_scale' To Be Number").ThrowAsJavaScriptException();
+      // motion_fps_scale
+      if (!processor_args.Has("kBlurScaleVerticalFile")) Napi::TypeError::New(env, "Expected Motion Object Arguments To Have Property: 'kBlurScaleVerticalFile'").ThrowAsJavaScriptException();
+      if (!processor_args.Get("kBlurScaleVerticalFile").IsString()) Napi::TypeError::New(env, "Expected Property: 'kBlurScaleVerticalFile' To Be String").ThrowAsJavaScriptException();
+      // motion_fps_scale
+      if (!processor_args.Has("kBlurScaleHorizontalFile")) Napi::TypeError::New(env, "Expected Motion Object Arguments To Have Property: 'kBlurScaleHorizontalFile'").ThrowAsJavaScriptException();
+      if (!processor_args.Get("kBlurScaleHorizontalFile").IsString()) Napi::TypeError::New(env, "Expected Property: 'kBlurScaleHorizontalFile' To Be String").ThrowAsJavaScriptException();
+      // motion_fps_scale
+      if (!processor_args.Has("kStabilizeFile")) Napi::TypeError::New(env, "Expected Motion Object Arguments To Have Property: 'kStabilizeFile'").ThrowAsJavaScriptException();
+      if (!processor_args.Get("kStabilizeFile").IsString()) Napi::TypeError::New(env, "Expected Property: 'kStabilizeFile' To Be String").ThrowAsJavaScriptException();
 
       uint32_t gaussian_size = processor_args.Get("gaussian_size").ToNumber().Uint32Value();
       uint32_t scale_denominator = processor_args.Get("scale_denominator").ToNumber().Uint32Value();
@@ -160,13 +173,27 @@ StreamProcessorWrap::StreamProcessorWrap(const Napi::CallbackInfo& info) : Napi:
       float min_changed_pixels = processor_args.Get("min_changed_pixels").ToNumber().FloatValue();
       uint32_t motion_fps_scale = processor_args.Get("motion_fps_scale").ToNumber().Uint32Value();
 
-      motion_config = {static_cast<unsigned int>(gaussian_size),
-                       static_cast<unsigned int>(scale_denominator),
-                       static_cast<unsigned int>(bg_stabil_length),
-                       static_cast<unsigned int>(motion_stabil_length),
-                       static_cast<unsigned int>(min_pixel_diff),
-                       min_changed_pixels,
-                       DecompFrameMethod::kFast};
+      std::string blur_scale_vertical_file = processor_args.Get("kBlurScaleVerticalFile").ToString().Utf8Value();
+      std::string blur_scale_horizontal_file = processor_args.Get("kBlurScaleHorizontalFile").ToString().Utf8Value();
+      std::string stabilize_file = processor_args.Get("kStabilizeFile").ToString().Utf8Value();
+      std::string calculate_difference_file = processor_args.Get("kCalculateDifferenceFile").ToString().Utf8Value();
+
+      motion_config = {
+          //
+          static_cast<unsigned int>(gaussian_size),
+          static_cast<unsigned int>(scale_denominator),
+          static_cast<unsigned int>(bg_stabil_length),
+          static_cast<unsigned int>(motion_stabil_length),
+          static_cast<unsigned int>(min_pixel_diff),
+          min_changed_pixels,
+          DecompFrameMethod::kFast,
+          blur_scale_vertical_file,
+          blur_scale_horizontal_file,
+          stabilize_file,
+          calculate_difference_file
+          //
+      };
+
       SetMotionFPSScale(static_cast<unsigned int>(motion_fps_scale));
     } else if (type == ArgType::kDevice) {
       if (found_device) Napi::TypeError::New(env, "Device Object Argument Given More Than 1 Time").ThrowAsJavaScriptException();
@@ -207,14 +234,21 @@ Napi::Value StreamProcessorWrap::ProcessFrameWrap(const Napi::CallbackInfo& info
   Napi::Env env = info.Env();
 
   // Throw error if there are no or too many arguments
-  if (info.Length() != 1) Napi::TypeError::New(env, "Requires Exactly 1 Argument").ThrowAsJavaScriptException();
+  size_t length = info.Length();
+  if (length != 2 && length != 1) Napi::TypeError::New(env, "Requires Exactly 1 or 2 Arguments").ThrowAsJavaScriptException();
 
   if (!info[0].IsBuffer()) Napi::TypeError::New(env, "Expected Buffer").ThrowAsJavaScriptException();
+  if (!info[1].IsNumber() && length == 2) Napi::TypeError::New(env, "Expected Number").ThrowAsJavaScriptException();
 
   Napi::Buffer<unsigned char*> buffer = info[0].As<Napi::Buffer<unsigned char*>>();
   Processed processed_frame;
   try {
-    processed_frame = ProcessFrame(reinterpret_cast<unsigned char*>(buffer.Data()), buffer.Length() * sizeof(unsigned char*) * 8);
+    if (length == 1) {
+      processed_frame = ProcessFrame(reinterpret_cast<unsigned char*>(buffer.Data()), buffer.Length() * sizeof(unsigned char*) * 8);
+    } else {
+      long long timestamp = info[1].ToNumber().Int64Value();
+      processed_frame = ProcessFrame(reinterpret_cast<unsigned char*>(buffer.Data()), buffer.Length() * sizeof(unsigned char*) * 8, timestamp);
+    }
   } catch (std::exception& e) {
     std::cout << e.what() << std::endl;
     Napi::TypeError::New(env, "Exception Processing Frame").ThrowAsJavaScriptException();
@@ -222,11 +256,12 @@ Napi::Value StreamProcessorWrap::ProcessFrameWrap(const Napi::CallbackInfo& info
     Napi::TypeError::New(env, "Unknown Exception Processing Frame").ThrowAsJavaScriptException();
   }
 
-  Napi::Buffer<unsigned char> processed_buffer = Napi::Buffer<unsigned char>::New(info.Env(), processed_frame.compressed.frame, static_cast<size_t>(processed_frame.compressed.size));
+  Napi::Buffer<unsigned char> processed_buffer = Napi::Buffer<unsigned char>::New(info.Env(), processed_frame.compressed.frame, static_cast<size_t>(processed_frame.compressed.size),
+                                                                                  [](Napi::Env env, void* finalizeData) { delete[] static_cast<unsigned char*>(finalizeData); });
 
   Napi::Object processed = Napi::Object::New(info.Env());
   processed.Set("compressed", processed_buffer);
-  processed.Set("motion", false);
+  processed.Set("motion", processed_frame.motion);
   return processed;
 }
 
