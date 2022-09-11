@@ -8,7 +8,7 @@ const rl = readline.createInterface({
 });
 
 rl.question("Directory of VCPKG: ", function (dir) {
-  const build = exec(`npm run build -- --CDCMAKE_TOOLCHAIN_FILE=${path.join(dir, "scripts", "buildsystems", "vcpkg.cmake")}`);
+  const build = exec(`npm run build -- --CDCMAKE_TOOLCHAIN_FILE=${path.join(dir, "scripts", "buildsystems", "vcpkg.cmake").trim()}`);
   build.stdout.on("data", (data) => {
     process.stdout.write(`${data}`);
   });

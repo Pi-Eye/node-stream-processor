@@ -157,7 +157,7 @@ describe("Process Frame", () => {
   const motion_settings = {
     gaussian_size: 0,
     scale_denominator: 1,
-    bg_stabil_length: 10,
+    bg_stabil_length: 2,
     motion_stabil_length: 1,
     min_pixel_diff: 1,
     min_changed_pixels: 0.1,
@@ -174,7 +174,7 @@ describe("Process Frame", () => {
   it("should not detect motion with motion detection off", () => {
     const processor = StreamProcessor.SimpleProcessor(required_settings, SILENT);
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 5; i++) {
       const processed = processor.ProcessFrame(base_image);
       processed.motion.should.be.false;
     }
@@ -183,9 +183,9 @@ describe("Process Frame", () => {
   it("should not detect motion on unchanged frames", () => {
     const processor = StreamProcessor.MotionDetection(required_settings, motion_settings, device_settings, SILENT);
 
-    for (let i = 0; i < 20; i++) processor.ProcessFrame(base_image);
+    for (let i = 0; i < 5; i++) processor.ProcessFrame(base_image);
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 5; i++) {
       const processed = processor.ProcessFrame(base_image, 1000);
       processed.motion.should.be.false;
     }
@@ -195,9 +195,9 @@ describe("Process Frame", () => {
     motion_settings.motion_fps_scale = 2;
     const processor = StreamProcessor.MotionDetection(required_settings, motion_settings, device_settings, SILENT);
 
-    for (let i = 0; i < 40; i++) processor.ProcessFrame(base_image);
+    for (let i = 0; i < 5; i++) processor.ProcessFrame(base_image);
 
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 5; i++) {
       const processed = processor.ProcessFrame(base_image);
       processed.motion.should.be.false;
     }
