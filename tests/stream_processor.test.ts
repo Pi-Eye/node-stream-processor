@@ -186,7 +186,7 @@ describe("Process Frame", () => {
     for (let i = 0; i < 20; i++) processor.ProcessFrame(base_image);
 
     for (let i = 0; i < 20; i++) {
-      const processed = processor.ProcessFrame(base_image);
+      const processed = processor.ProcessFrame(base_image, 1000);
       processed.motion.should.be.false;
     }
   });
@@ -205,6 +205,20 @@ describe("Process Frame", () => {
     processed0.motion.should.be.false;
     const processed1 = processor.ProcessFrame(changed_image);
     processed1.motion.should.be.true;
+
+  });
+});
+
+describe("List devices", () => {
+  it("should give list of devices as array", (done) => {
+    StreamProcessor.ListDevices(SPEnums.DeviceType.kSpecific)
+      .then((devices) => {
+        devices.length.should.be.greaterThanOrEqual(0);
+        done();
+      })
+      .catch((error) => {
+        done(error);
+      });
 
   });
 });

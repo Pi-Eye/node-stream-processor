@@ -61,6 +61,13 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${JPEG_INCLUDE_DIR})
 find_package(freetype CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE freetype)
 
+# Copy .cl Kernel Files To Output Directory
+FILE(GLOB KERNEL_CL_FILES "stream-processor/mjpeg-motion-detector/kernels/*")
+foreach(CL_FILE ${KERNEL_CL_FILES})
+  get_filename_component(FILE_NAME ${CL_FILE} NAME)
+  configure_file(${CL_FILE} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${FILE_NAME})
+endforeach()
+
 # Essential library files to link to a node addon,
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_JS_LIB})
 

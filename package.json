@@ -5,14 +5,14 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./**/*.ts",
-    "build": "tsc -b",
+    "build": "cmake-js compile",
+    "postbuild": "tsc -b",
     "pretest": "npm run build",
     "test": "mocha ./bin/**/*.test.js",
     "coverage": "nyc npm test",
     "prebenchmark": "npm run build",
     "benchmark": "node ./bin/tests/benchmark.js",
-    "install": "cmake-js compile",
-    "postinstall": "npm run build"
+    "postinstall": "node postinstall.js"
   },
   "repository": {
     "type": "git",
