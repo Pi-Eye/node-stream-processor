@@ -12,7 +12,7 @@
     "coverage": "nyc npm test",
     "prebenchmark": "npm run build",
     "benchmark": "node ./bin/tests/benchmark.js",
-    "preinstall": "node postinstall.js"
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
