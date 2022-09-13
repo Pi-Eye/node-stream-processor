@@ -25,7 +25,7 @@ clone.on("error", (error) => {
 clone.on("close", (code) => {
   if (code) {
     console.log("\x1b[41m", `Clone failed with code: ${code}`, "\x1b[0m");
-    process.exit();
+    throw new Error("Clone process failed");
   }
   else {
     console.log("\x1b[32m", `Clone process exited successfully with code: ${code}`, "\x1b[0m");
@@ -48,6 +48,7 @@ clone.on("close", (code) => {
     build.on("close", (code) => {
       if (code) {
         console.log("\x1b[41m", `Build failed with code: ${code}`, "\x1b[0m");
+        throw new Error("Build process failed");
       }
       else {
         console.log("\x1b[32m", `Build process exited successfully with code: ${code}`, "\x1b[0m");
