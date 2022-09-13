@@ -3,7 +3,7 @@ const path = require("path");
 const { exec } = require("child_process");
 
 try {
-  fs.rmdirSync(path.join(__dirname, "stream-processor"), { recursive: true });
+  fs.rmSync(path.join(__dirname, "stream-processor"), { recursive: true });
 }
 catch { /**/ }
 
