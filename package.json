@@ -2,7 +2,7 @@
   "name": "node-stream-processor",
   "version": "1.0.0",
   "description": "Node interface for stream processor",
-  "main": "index.js",
+  "main": "bin/src/stream_processor.js",
   "scripts": {
     "lint": "eslint ./**/*.ts",
     "build": "cmake-js compile",
@@ -12,7 +12,7 @@
     "coverage": "nyc npm test",
     "prebenchmark": "npm run build",
     "benchmark": "node ./bin/tests/benchmark.js",
-    "postinstall": "node postinstall.js"
+    "prepare": "node postinstall.js"
   },
   "repository": {
     "type": "git",
