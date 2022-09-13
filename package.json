@@ -11,8 +11,7 @@
     "test": "mocha ./bin/**/*.test.js --timeout 60000",
     "coverage": "nyc npm test",
     "prebenchmark": "npm run build",
-    "benchmark": "node ./bin/tests/benchmark.js",
-    "prepare": "node postinstall.js"
+    "benchmark": "node ./bin/tests/benchmark.js"
   },
   "repository": {
     "type": "git",
