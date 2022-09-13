@@ -3,10 +3,7 @@
   "version": "1.0.0",
   "description": "Node interface for stream processor",
   "main": "./lib/src/stream_processor.js",
-  "files": [
-    "lib/**/*",
-    "postinstall.js"
-  ],
+  "types": "./lib/src/stream_processor.d.ts",
   "scripts": {
     "lint": "eslint ./**/*.ts",
     "build": "cmake-js compile",
