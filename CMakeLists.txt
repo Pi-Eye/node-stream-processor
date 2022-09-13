@@ -4,9 +4,9 @@ cmake_minimum_required(VERSION "3.24")
 # Name Project
 project("node-stream-processor")
 
-# Set output directory to bin
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ${CMAKE_SOURCE_DIR}/bin)
+# Set output directory to lib
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ${CMAKE_SOURCE_DIR}/lib)
 
 # Set C/C++ Version
 set(CMAKE_C_STANDARD 17)

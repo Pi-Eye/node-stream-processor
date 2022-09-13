@@ -2,16 +2,19 @@
   "name": "node-stream-processor",
   "version": "1.0.0",
   "description": "Node interface for stream processor",
-  "main": "bin/src/stream_processor.js",
+  "main": "./lib/src/stream_processor.js",
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "lint": "eslint ./**/*.ts",
     "build": "cmake-js compile",
     "postbuild": "tsc -b",
     "pretest": "npm run build",
-    "test": "mocha ./bin/**/*.test.js --timeout 60000",
+    "test": "mocha ./lib/**/*.test.js --timeout 60000",
     "coverage": "nyc npm test",
     "prebenchmark": "npm run build",
-    "benchmark": "node ./bin/tests/benchmark.js",
+    "benchmark": "node ./lib/tests/benchmark.js",
     "postinstall": "node postinstall.js"
   },
   "repository": {
