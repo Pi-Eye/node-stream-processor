@@ -4,7 +4,8 @@
   "description": "Node interface for stream processor",
   "main": "./lib/src/stream_processor.js",
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "postinstall.js"
   ],
   "scripts": {
     "lint": "eslint ./**/*.ts",
