@@ -18,8 +18,8 @@ clone.stderr.on("data", (data) => {
 });
 
 clone.on("error", (error) => {
-  const RED = "\x1b[36m%s\x1b[0m";
-  console.log(`${RED} error: ${error.message}`);
+  console.log("\x1b[32m", `error: ${error.message}`, "\x1b[0m");
+  throw error;
 });
 
 clone.on("close", (code) => {
@@ -41,8 +41,8 @@ clone.on("close", (code) => {
     });
 
     build.on("error", (error) => {
-      const RED = "\x1b[36m%s\x1b[0m";
-      console.log(`${RED} error: ${error.message}`);
+      console.log("\x1b[32m", `error: ${error.message}`, "\x1b[0m");
+      throw error;
     });
 
     build.on("close", (code) => {
