@@ -10,7 +10,7 @@ import * as SPDefaults from "./stream_processor_defaults";
 const addon = require(utils.FindFile("node-stream-processor.node", path.join(__dirname, "..")));
 
 export default class StreamProcessor {
-  wrapped_: typeof addon.StreamProcessorWrap;
+  private wrapped_: typeof addon.StreamProcessorWrap;
 
   /**
    * Constructs a new StreamProcessor 
