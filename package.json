@@ -2,8 +2,8 @@
   "name": "node-stream-processor",
   "version": "1.0.0",
   "description": "Node interface for stream processor",
-  "main": "./lib/src/index.js",
-  "types": "./lib/src/index.d.ts",
+  "main": "./lib/src/stream_processor.js",
+  "types": "./lib/src/stream_processor.d.ts",
   "scripts": {
     "lint": "eslint ./**/*.ts",
     "build": "cmake-js compile",
@@ -33,6 +33,7 @@
     "cmake-js": "^7.0.0",
     "mocha": "^10.1.0",
     "node-addon-api": "^5.0.0",
+    "node-stream-processor-types": "github:Pi-Eye/node-stream-processor-types",
     "typescript": "^4.8.4"
   },
   "devDependencies": {

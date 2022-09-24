@@ -3,8 +3,7 @@ import path from "path";
 
 import * as utils from "./utils";
 
-import * as SPTypes from "./stream_processor_types";
-import * as SPEums from "./stream_processor_enums";
+import { SPTypes, SPEnums } from "node-stream-processor-types";
 import * as SPDefaults from "./stream_processor_defaults";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const addon = require(utils.FindFile("node-stream-processor.node", path.join(__dirname, "..")));
@@ -99,14 +98,14 @@ export default class StreamProcessor {
    * @param device_type - Type of devices to list
    * @returns Promise that resolves to array of names of devices (index is their id)
    */
-  static async ListDevices(device_type: SPEums.DeviceType): Promise<Array<string>> {
+  static async ListDevices(device_type: SPEnums.DeviceType): Promise<Array<string>> {
     return new Promise((resolve, reject) => {
       let location = "";
       try { location = utils.FindFile("opencl_devices", path.join(__dirname, "..")); }
       catch {
         try {
           location = utils.FindFile("opencl_devices.exe", path.join(__dirname, ".."));
-        } 
+        }
         catch (error) { reject(error); }
       }
       const child = spawn(location, [device_type.toString()]);

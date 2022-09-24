@@ -1,8 +1,8 @@
 import path from "path";
 import * as utils from "./utils";
 
-import * as SPTypes from "./stream_processor_types";
-import * as SPEnums from "./stream_processor_enums";
+import { SPTypes, SPEnums } from "node-stream-processor-types";
+
 
 export const DEFAULT_REQUIRED: { type: SPEnums.ArgType.kRequired } & SPTypes.RequiredSettings = {
   type: SPEnums.ArgType.kRequired,

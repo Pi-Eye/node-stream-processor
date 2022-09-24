@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 
 import StreamProcessor from "../src/stream_processor";
-import * as SPEnums from "../src/stream_processor_enums";
+import { SPEnums } from "node-stream-processor-types";
 
 const DEVICE_ID = 0;    // OpenCL device to run test on
 const SILENT = true;   // Debug messages or not

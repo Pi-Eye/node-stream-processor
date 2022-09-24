@@ -15,7 +15,7 @@
     "plugins": [
         "@typescript-eslint"
     ],
-	"ignorePatterns": [".built/*"],
+	"ignorePatterns": ["lib/**/*"],
     "rules": {
         "indent": [
             "error",
