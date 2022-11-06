@@ -6,6 +6,8 @@ Node Interface of Pi-Eye's Processor For MJPEG Stream
 
 ### Built With
 
+* NodeJS
+* TypeScript
 * C++
 * OpenCL
 * libjpeg-turbo
