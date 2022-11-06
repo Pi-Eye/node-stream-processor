@@ -1,9 +1,9 @@
 {
   "name": "node-stream-processor",
   "version": "1.0.0",
-  "description": "Node interface for stream processor",
-  "main": "./lib/src/stream_processor.js",
-  "types": "./lib/src/stream_processor.d.ts",
+  "description": "Node Interface for Pi-Eye's Processor For MJPEG Stream",
+  "main": "./lib/src/index.js",
+  "types": "./lib/src/index.d.ts",
   "scripts": {
     "lint": "eslint ./**/*.ts",
     "build": "cmake-js compile",
