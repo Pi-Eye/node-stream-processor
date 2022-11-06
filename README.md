@@ -19,8 +19,7 @@ Node Interface of Pi-Eye's Processor For MJPEG Stream
 
 2. [vcpkg](https://vcpkg.io/en/index.html)
 
-3. [Cmake](https://cmake.org/)
-
+3. [Node](https://nodejs.org/) and npm
 ### Installation
 
 1. Install dependencies
