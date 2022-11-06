@@ -39,14 +39,15 @@ Node Interface of Pi-Eye's Processor For MJPEG Stream
       $ENV:CMAKE_TOOLCHAIN_FILE="[path to vcpkg]/scripts/buildsystems/vcpkg.cmake"
       ```
     
-3. Install NPM package (this may take a significant while)
+3. Install 2 NPM packages (this may take a long time): node-stream-processor and node-stream-processor-types
     ```sh
-    npm install https://github.com/Pi-Eye/node-stream-processor
+    npm install https://github.com/Pi-Eye/node-stream-processor https://github.com/Pi-Eye/node-stream-processor-types
     ```
 ## Usage
 
   ```js
-import { StreamProcessor, SPEnums } from "node-stream-processor";
+import StreamProcessor from "node-stream-processor";
+import { SPEnums } from "node-stream-processor-types";
 
 const required_settings = {       // required setting for processor
     width: 640,
