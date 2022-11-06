@@ -45,6 +45,7 @@ Node Interface of Pi-Eye's Processor For MJPEG Stream
     npm install https://github.com/Pi-Eye/node-stream-processor https://github.com/Pi-Eye/node-stream-processor-types
     ```
 ## Usage
+### Example Stream Processor
 
   ```js
 import StreamProcessor from "node-stream-processor";
@@ -90,7 +91,6 @@ const required_settings = {       // required setting for processor
   console.log(frame.motion);          // motion detected on frame or not
   ```
 
-### Example Motion Detector
 
 
 ## License
